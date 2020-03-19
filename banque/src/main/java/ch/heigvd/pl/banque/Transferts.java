@@ -1,23 +1,31 @@
 package ch.heigvd.pl.banque;
 
+
+import java.util.Random;
+
 public class Transferts extends Thread {
 
-    public static void main(String[] args) {
-        Transferts thread = new Transferts();
-        thread.start();
+    private Banque banque;
 
+    public Transferts(Banque banque) {
+        if(banque == null) {
+            throw new IllegalArgumentException("Banque est nul");
+        }
+        this.banque = banque;
     }
 
 
-
+    @Override
     public void run() {
-        final int N = 10;
+        final int N = 1000;
+        Random rand = new Random();
+
+        int transfert = rand.nextInt(50);
         for (int i = 0; i < N; i++) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            int crediteur = rand.nextInt(banque.getNbComptes());
+            int debiteur = rand.nextInt(banque.getNbComptes());
+            int montant = rand.nextInt(500);
+            banque.transfert(debiteur, crediteur, montant);
         }
     }
 }

@@ -24,7 +24,7 @@ class TransfertsTest {
     }
 
     @Test
-    public void transfertTest() {
+    public void transfertTest() throws InterruptedException {
 
         final int NB_TRANSFERTS = 1000;
         ArrayList<Transferts> transfertsList = new ArrayList<Transferts>();
@@ -33,6 +33,10 @@ class TransfertsTest {
             transfertsList.add(new Transferts(banque));
             transfertsList.get(i).start();
         }
+
+        //insérer join avec synchronized
+        for(Transferts transfert : transfertsList)
+            transfert.join();
 
         assertTrue(banque.consistent());
     }

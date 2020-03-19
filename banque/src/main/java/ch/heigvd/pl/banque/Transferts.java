@@ -27,5 +27,6 @@ public class Transferts extends Thread {
             int montant = rand.nextInt(500);
             banque.transfert(debiteur, crediteur, montant);
         }
+
     }
 }

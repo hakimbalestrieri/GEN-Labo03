@@ -18,16 +18,20 @@ public class Compte {
     }
 
     public boolean debit(int valeur) {
-        if (montant - valeur >= 0) {
-            this.montant -= valeur;
-            return true;
-        } else {
-            return false;
+        synchronized (this) {
+            if (montant - valeur >= 0) {
+                this.montant -= valeur;
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
     public void credit(int valeur) {
-        this.montant += valeur;
+        synchronized (this) {
+            this.montant += valeur;
+        }
     }
 
 }

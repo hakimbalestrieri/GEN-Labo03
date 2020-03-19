@@ -4,5 +4,4 @@ cache:
     directories:
         - $HOME/.m2
 script:
-    - echo "TestBot at work..."
     - mvn clean test

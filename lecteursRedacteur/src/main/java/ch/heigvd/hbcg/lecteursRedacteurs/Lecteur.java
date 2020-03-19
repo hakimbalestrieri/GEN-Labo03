@@ -1,4 +1,6 @@
-public class Lecteur {
+package ch.heigvd.hbcg.lecteursRedacteurs;
+
+public class Lecteur implements Runnable{
     public Lecteur(Controleur controleur) {
             }
 
@@ -10,6 +12,11 @@ public class Lecteur {
     }
 
     public void stopRead() {
+
+    }
+
+    @Override
+    public void run() {
 
     }
 }

@@ -5,19 +5,30 @@ public class Redacteur implements Runnable {
     private Controleur controleur;
 
     public Redacteur(Controleur controleur) {
-        if (controleur == null)
+        if (controleur == null) {
             throw new IllegalArgumentException("Controleur nul");
-        this.controleur = controleur;
-    }
-
-    public void startWrite() {
+        }
+        else {
+            this.controleur = controleur;
+        }
     }
 
     public boolean isWaiting() {
-        return false;
+        return controleur.isWaiting(this);
     }
 
-    public void stopWrite() {
+    public void startWrite() throws InterruptedException {
+        synchronized (this) { //un seul rédacteur à la fois
+            new Thread(this).start();
+            Thread.sleep(1);
+        }
+    }
+
+    public void stopWrite() throws InterruptedException {
+        synchronized (this) {
+            controleur.stopWrite(this);
+            Thread.sleep(1);
+        }
     }
 
     @Override

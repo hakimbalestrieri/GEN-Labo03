@@ -14,8 +14,7 @@ public class Controleur {
     private Set lecteursActifs = new HashSet<Lecteur>();
     private Redacteur redacteurActif;
 
-    void writeFile(Redacteur redacteur) {
-        synchronized (this) {
+    synchronized void writeFile(Redacteur redacteur) {
             while (redacteurActif != null || !lecteursActifs.isEmpty()) {
                 try {
                     //Nous n'avons pas besoin de vérifier si attenteRedacteurs contient
@@ -26,7 +25,6 @@ public class Controleur {
                     e.printStackTrace();
                 }
             }
-        }
         attenteRedacteurs.remove(redacteur);
         this.redacteurActif = redacteur;
     }

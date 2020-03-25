@@ -1,5 +1,6 @@
-package ch.heigvd.pl.banque;
+//Créé par Hakim Balestrieri et Christian Gomes
 
+package ch.heigvd.pl.banque;
 
 import java.util.Random;
 
@@ -14,19 +15,16 @@ public class Transferts extends Thread {
         this.banque = banque;
     }
 
-
     @Override
     public void run() {
         final int N = 1000;
         Random rand = new Random();
 
-        int transfert = rand.nextInt(50);
         for (int i = 0; i < N; i++) {
             int crediteur = rand.nextInt(banque.getNbComptes());
             int debiteur = rand.nextInt(banque.getNbComptes());
             int montant = rand.nextInt(500);
             banque.transfert(debiteur, crediteur, montant);
         }
-
     }
 }

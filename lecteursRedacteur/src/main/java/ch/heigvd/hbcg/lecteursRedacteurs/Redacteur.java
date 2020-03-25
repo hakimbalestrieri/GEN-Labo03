@@ -26,7 +26,7 @@ public class Redacteur implements Runnable {
 
     public void stopWrite() throws InterruptedException {
         synchronized (this) {
-            controleur.stopWrite(this);
+            controleur.stopWrite();
             Thread.sleep(1);
         }
     }

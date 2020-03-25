@@ -9,11 +9,10 @@ public class Controleur {
     private Set attenteLecteurs = new HashSet<Lecteur>();
     private Set lecteursActifs = new HashSet<Lecteur>();
     private Redacteur redacteurActif;
-    private boolean writeState = false;
 
     public void writeFile(Redacteur redacteur) {
         synchronized (this) {
-            while (!writeState || redacteurActif != null) {
+            while (redacteurActif != null || !lecteursActifs.isEmpty()) {
                 try {
                     attenteRedacteurs.add(redacteur); //pas besoin de vérifier si contient car Set le fait automatiquement
                     this.wait();
@@ -24,7 +23,6 @@ public class Controleur {
         }
         attenteRedacteurs.remove(redacteur);
         this.redacteurActif = redacteur;
-        writeState = true;
     }
 
     public boolean isWaiting(Object personne) {
@@ -40,7 +38,7 @@ public class Controleur {
 
     public void readFile(Lecteur lecteur) {
         synchronized (this) {
-            while (!attenteRedacteurs.isEmpty() || writeState) {
+            while (!attenteRedacteurs.isEmpty() || redacteurActif != null) {
                 try {
                     if (!attenteLecteurs.contains(lecteur)) {
                         attenteLecteurs.add(lecteur);
@@ -67,10 +65,9 @@ public class Controleur {
 
     }
 
-    public void stopWrite(Redacteur redacteur) {
+    public void stopWrite() {
         synchronized (this) {
             redacteurActif = null;
-            writeState = false;
             notifyAll();
         }
     }
